@@ -1,0 +1,81 @@
+eureka-hostname: localhost
+eureka-server: http://localhost:8761/eureka
+zipkin-endpoint: http://192.168.43.10:9411/api/v2/spans
+
+logging:
+  pattern:
+    #    console: "%d{yyyy-MM-dd HH:mm:ss} [%X{correlationId}] [%thread] %-5level %logger{36} - %msg%n"
+    #    file: "%d{yyyy-MM-dd HH:mm:ss} [%X{correlationId}] [%thread] %-5level %logger{36} - %msg%n"
+    correlation: "[%X{correlationId}] [%X{traceParent}] "
+
+eureka:
+  instance:
+    hostname: ${eureka-hostname}
+  client:
+    service-url:
+      defaultZone: ${eureka-server}
+
+spring:
+  cloud:
+    config:
+      # used to not override if some properties of spring cloud are defined on the app itself is cloud configuration
+      override-system-properties: false
+
+
+#tracing config for zipkin
+management:
+  endpoint:
+    caches:
+      cache:
+        time-to-live: 2s
+    health:
+      show-details: always
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+#-------------------
+  metrics:
+    tags:
+      application: transfer-service
+#-------------
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: [ "prometheus" ]
+      base-path: /actuator
+#-------management-tracing config (todo backup below tracing) ------------------
+  tracing:
+    sampling:
+      probability: 0.1
+    enabled: true
+#-----end-------
+  zipkin:
+    tracing:
+      endpoint: ${zipkin-endpoint}
+
+
+##-----Custom-Defined api clients path for internal communication
+##api paths((GW+Eureka)->ForResolution )
+application:
+  config:
+    customer-url: http://localhost:8222/api/v1/customer
+    payment-url: http://localhost:8222/api/v1/payment
+    product-url: http://localhost:8222/api/v1/product
+    category-url: http://localhost:8222/api/v1/category
+    order-url: http://localhost:8222/api/v1/order
+    orderline-url: http://localhost:8222/api/v1/orderline
+
+
+#api paths(todo Testing with Direct-Call, no load balancing config (fail-scalability))
+#application:
+#  config:
+#    customer-url: http://localhost:8091/api/v1/customer
+#    payment-url: http://localhost:8060/api/v1/payment
+#    product-url: http://localhost:8050/api/v1/product
+#    category-url: http://localhost:8050/api/v1/category
+#    order-url: http://localhost:8070/api/v1/order
+#    orderline-url: http://localhost:8070/api/v1/orderline
+#

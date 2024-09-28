@@ -1,0 +1,29 @@
+pw-mangodb: seif
+username-mangodb: seif
+db-name: customer
+host-mangodb: 192.168.43.10
+port-mangodb: 27017
+
+server:
+  port: 8091
+
+
+spring:
+  application:
+    name: customer-service
+
+  data:
+    mongodb:
+      database: ${db-name}
+      username: ${username-mangodb}
+      password: ${pw-mangodb}
+      host: ${host-mangodb}
+      port: ${port-mangodb}
+      authentication-database: admin
+
+management:
+  metrics:
+    tags:
+      application: customer-service
+
+

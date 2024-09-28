@@ -1,0 +1,29 @@
+
+spring:
+#  data:
+#    redis:
+#      lettuce:
+#        pool:
+#          max-active: 8
+#          max-idle: 8
+#          min-idle: 0
+#          max-wait: 1000
+#      host: 192.168.43.10
+#      port: 6379
+#      password:
+#      timeout: 2000
+
+
+  application:
+    name: product-service
+  config:
+    import: optional:configserver:http://localhost:8888
+
+
+
+#application:
+#  config:
+#    customer-url: http://localhost:8222/api/v1/customer
+#    payment-url: http://localhost:8222/api/v1/payment
+#    product-url: http://localhost:8222/api/v1/product
+#

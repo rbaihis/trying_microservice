@@ -1,0 +1,9 @@
+
+email-service:
+    sentfrom: rabbehs@gmail.com
+
+spring:
+    config:
+        import: optional:configserver:http://localhost:8888
+    application:
+        name: notification-service

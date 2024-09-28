@@ -1,0 +1,13 @@
+# other configs are inherited from ./application.yaml
+
+
+# Configuration for discovery
+server:
+  port: 8761
+
+#Discovery service shouldn't register himself
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
